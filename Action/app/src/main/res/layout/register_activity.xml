@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textSize="50dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID: "
+            android:id="@+id/tv1"/>
+
+        <EditText
+            android:layout_width="150dp"
+            android:layout_height="27dp"
+            android:layout_toRightOf="@+id/tv1"
+            android:textSize="19dp"
+            android:id="@+id/ID_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" @ "
+            android:layout_toRightOf="@+id/ID_text"
+            android:id="@+id/tv2"
+            />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:entries="@array/domain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv2"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="전화번호: "
+            android:textSize="19dp"
+            android:id="@+id/tv3" />
+
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="211dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18dp"
+            android:layout_toRightOf="@+id/tv3" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="비밀번호: "
+            android:textSize="19dp"
+            android:id="@+id/tv4" />
+
+        <EditText
+            android:id="@+id/PW"
+            android:layout_width="211dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="18dp"
+            android:layout_toRightOf="@+id/tv4"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="비밀번호 확인: "
+            android:textSize="19dp"
+            android:id="@+id/tv5" />
+
+        <EditText
+            android:id="@+id/PW_confirm"
+            android:layout_width="211dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:textSize="10dp"
+            android:layout_toRightOf="@+id/tv5"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="70dp"
+        android:id="@+id/rl">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="약관 동의"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="동의"
+            android:layout_alignParentRight="true"
+            android:id="@+id/check1"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:text="회원가입"
+            android:textSize="25dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/reg"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="닫기"
+            android:textSize="25dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/close"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/reg"
+            android:layout_marginLeft="40dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
