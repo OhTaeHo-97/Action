@@ -1,13 +1,12 @@
 package com.example.action;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     EditText id;
@@ -31,14 +30,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //String id_text=id.getText().toString();
                 //String pw_text=id.getText().toString();
-                Intent intent= new Intent(getApplicationContext(), MyInfoActivity.class);
+                Intent intent= new Intent(getApplicationContext(), BottomBarActivity.class);
                 startActivity(intent);
             }
         });
 
         register.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                Intent intent=new Intent(getApplicationContext(),RegisterActivity.class);
+                Intent intent=new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });
