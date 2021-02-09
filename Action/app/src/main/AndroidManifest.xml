@@ -18,7 +18,10 @@
         </activity>
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".FindPWActivity"/>
-        <activity android:name=".MyInfoActivity"/>
+        <activity android:name=".EditInfoActivity"/>
+        <activity android:name=".BottomBarActivity"/>
+        <activity android:name=".WithPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
+        <activity android:name=".SelectPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
