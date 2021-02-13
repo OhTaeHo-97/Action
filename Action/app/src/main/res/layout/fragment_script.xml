@@ -6,148 +6,112 @@
     android:orientation="vertical"
     tools:context=".ScriptFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="수정하기"
-            android:textSize="15dp"
-            android:id="@+id/edit"
-            android:layout_marginLeft="20dp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="같이하기"
-            android:textSize="15dp"
-            android:id="@+id/with"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="제목: "
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:id="@+id/tv1"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/tv1"
-            android:id="@+id/title"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="배역 이름: "
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:id="@+id/tv2"/>
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/tv2"
-            android:id="@+id/name"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수정하기"
+                    android:textSize="15dp"
+                    android:id="@+id/edit"
+                    android:layout_marginLeft="20dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="감정: "
-            android:textSize="20dp"
-            android:id="@+id/tv3"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="같이하기"
+                    android:textSize="15dp"
+                    android:id="@+id/with"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"/>
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:entries="@array/emotion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv3"/>
+            </RelativeLayout>
 
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Script"
-        android:id="@+id/script1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="제목: "
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:id="@+id/tv1"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/tv1"
+                    android:id="@+id/title"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="수정하기"
-            android:textSize="15dp"
-            android:id="@+id/edit1"
-            android:layout_marginLeft="20dp"/>
+            </RelativeLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="같이하기"
-            android:textSize="15dp"
-            android:id="@+id/with1"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="배역 이름: "
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:id="@+id/tv2"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/tv2"
+                    android:id="@+id/name"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="수정하기"
-            android:textSize="15dp"
-            android:id="@+id/edit2"
-            android:layout_marginLeft="20dp"/>
+            </RelativeLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="같이하기"
-            android:textSize="15dp"
-            android:id="@+id/with2"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="감정: "
+                    android:textSize="20dp"
+                    android:id="@+id/tv3"/>
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:entries="@array/emotion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv3"/>
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Script"
+                android:id="@+id/script1"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

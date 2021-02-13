@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sound">
+        <item>소리</item>
+        <item>진동</item>
+        <item>무음</item>
+    </string-array>
+</resources>

@@ -48,9 +48,9 @@ public class BottomBarActivity extends AppCompatActivity {
             } else if (id == R.id.write){
                 //fragment = new FragmentPage2();
             } else if (id == R.id.feed){
-                //fragment = new FragmentPage3();
+                fragment = new FeedFragment();
             } else {
-
+                fragment = new SettingFragment();
             }
 
             fragmentTransaction.add(R.id.framelayout, fragment, tag);
