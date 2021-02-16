@@ -3,6 +3,10 @@
     package="com.example.action">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,6 +29,9 @@
         <activity android:name=".WithPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
         <activity android:name=".SelectPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
         <activity android:name=".StarRatingActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
+        <activity android:name=".VideoRecordActivity"/>
+        <activity android:name=".AnalysisCheckActivity" />
+        <activity android:name=".VideoCheckActivity" />
     </application>
 
 </manifest>

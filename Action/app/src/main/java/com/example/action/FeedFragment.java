@@ -70,7 +70,7 @@ public class FeedFragment extends Fragment {
         Button evaluation=(Button)rootview.findViewById(R.id.evaluation);
         evaluation.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                Intent intent=new Intent(getActivity(),StarRatingActivity.class);
+                Intent intent=new Intent(getActivity(), StarRatingActivity.class);
                 startActivity(intent);
             }
         });

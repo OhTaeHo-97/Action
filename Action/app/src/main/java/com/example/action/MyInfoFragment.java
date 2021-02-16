@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +75,14 @@ public class MyInfoFragment extends Fragment {
         TabLayout tab=rootview.findViewById(R.id.tab);
         tab.setupWithViewPager(vp);
 
+        String email="";
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null){
+            email=user.getEmail();
+        }
+
         Button info=(Button)rootview.findViewById(R.id.info);
+        info.setText(email);
         info.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent intent=new Intent(getActivity(), EditInfoActivity.class);

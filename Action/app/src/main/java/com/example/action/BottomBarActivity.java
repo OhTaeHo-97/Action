@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomBarActivity extends AppCompatActivity {
     private BottomNavigationView mBottomNV;
+    String email="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class BottomBarActivity extends AppCompatActivity {
             if (id == R.id.main) {
                 fragment = new MyInfoFragment();
             } else if (id == R.id.write){
-                //fragment = new FragmentPage2();
+                fragment = new CreateScriptFragment();
             } else if (id == R.id.feed){
                 fragment = new FeedFragment();
             } else {
