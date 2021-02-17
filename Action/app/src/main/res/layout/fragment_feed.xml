@@ -13,23 +13,23 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo_mini"/>
+            android:src="@drawable/logo_mini" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="장르: "
-            android:textSize="15dp"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/spinner"
-            android:layout_centerVertical="true"/>
+            android:text="장르: "
+            android:textSize="15dp" />
 
         <Spinner
             android:id="@+id/spinner"
-            android:entries="@array/genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:entries="@array/genre" />
 
     </RelativeLayout>
 
@@ -53,25 +53,25 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="감정: "
-                    android:id="@+id/tv1"/>
+                    android:text="감정: " />
 
                 <TextView
+                    android:id="@+id/feeling"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/feeling"
-                    android:text="슬픔"
-                    android:layout_toRightOf="@+id/tv1"/>
+                    android:layout_toRightOf="@+id/tv1"
+                    android:text="슬픔" />
 
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hi"
-                android:id="@+id/comment"/>
+                android:text="Hi" />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -81,28 +81,28 @@
 
                 <TableRow>
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                                <TextView
-                                    android:id="@+id/tv2"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="점수: "
-                                    android:textSize="20dp"
-                                    android:layout_centerVertical="true"/>
+                        <TextView
+                            android:id="@+id/tv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="점수: "
+                            android:textSize="20dp" />
 
-                                <TextView
-                                    android:id="@+id/score"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="4.5"
-                                    android:textSize="20dp"
-                                    android:layout_centerVertical="true"
-                                    android:layout_toRightOf="@+id/tv2"/>
+                        <TextView
+                            android:id="@+id/score"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/tv2"
+                            android:text="4.5"
+                            android:textSize="20dp" />
 
-                        </RelativeLayout>
+                    </RelativeLayout>
 
                     <Button
                         android:id="@+id/evaluation"

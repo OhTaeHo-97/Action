@@ -26,20 +26,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ID: "
-            android:id="@+id/tv1"/>
+            android:id="@+id/tv1"
+            android:gravity="center"
+            android:textSize="19dp"/>
 
         <EditText
             android:layout_width="150dp"
-            android:layout_height="27dp"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv1"
-            android:textSize="19dp"
+            android:textSize="18dp"
             android:id="@+id/ID_text"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" @ "
+            android:textSize="18dp"
             android:layout_toRightOf="@+id/ID_text"
+            android:gravity="center"
             android:id="@+id/tv2"
             />
 
@@ -62,6 +66,7 @@
             android:layout_height="40dp"
             android:text="전화번호: "
             android:textSize="19dp"
+            android:gravity="center"
             android:id="@+id/tv3" />
 
         <EditText
@@ -84,6 +89,7 @@
             android:layout_height="40dp"
             android:text="비밀번호: "
             android:textSize="19dp"
+            android:gravity="center"
             android:id="@+id/tv4" />
 
         <EditText
@@ -92,6 +98,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:textSize="18dp"
+            android:inputType="textPassword"
             android:layout_toRightOf="@+id/tv4"/>
 
     </RelativeLayout>
@@ -106,14 +113,16 @@
             android:layout_height="40dp"
             android:text="비밀번호 확인: "
             android:textSize="19dp"
-            android:id="@+id/tv5" />
+            android:id="@+id/tv5"
+            android:gravity="center"/>
 
         <EditText
             android:id="@+id/PW_confirm"
             android:layout_width="211dp"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:textSize="10dp"
+            android:textSize="18dp"
+            android:inputType="textPassword"
             android:layout_toRightOf="@+id/tv5"/>
 
     </RelativeLayout>

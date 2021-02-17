@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,10 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".VideoRecordActivity"></activity>
-        <activity android:name=".AnalysisCheckActivity" />
-        <activity android:name=".VideoCheckActivity" />
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".FindPWActivity"/>
         <activity android:name=".EditInfoActivity"/>
@@ -34,7 +29,9 @@
         <activity android:name=".WithPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
         <activity android:name=".SelectPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
         <activity android:name=".StarRatingActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
-
+        <activity android:name=".VideoRecordActivity"/>
+        <activity android:name=".AnalysisCheckActivity" />
+        <activity android:name=".VideoCheckActivity" />
     </application>
 
 </manifest>

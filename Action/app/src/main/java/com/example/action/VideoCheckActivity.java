@@ -1,8 +1,8 @@
 package com.example.action;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class VideoCheckActivity extends AppCompatActivity {
 
