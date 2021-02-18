@@ -11,22 +11,12 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 public class EditInfoActivity extends AppCompatActivity {
     Button close;
     Button edit_info;
     Button info;
     EditText phone;
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference mReference;
-    private DatabaseReference reference;
+
     private ProgressDialog progressDialog;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,24 +35,24 @@ public class EditInfoActivity extends AppCompatActivity {
         progressDialog.setMessage("처리중입니다. 잠시 기다려 주세요...");
         progressDialog.show();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null){
-            email=user.getEmail();
-            uid=user.getUid();
-        }
-
-        mDatabase=FirebaseDatabase.getInstance();
-        mReference=mDatabase.getReference("Users/"+uid+"/phone");
-        mReference.addValueEventListener(new ValueEventListener(){
-            public void onDataChange(DataSnapshot dataSnapshot){
-                String phone_num=dataSnapshot.getValue().toString();
-                phone.setText(phone_num);
-            }
-
-            public void onCancelled(DatabaseError databaseError){
-
-            }
-        });
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if(user!=null){
+//            email=user.getEmail();
+//            uid=user.getUid();
+//        }
+//
+//        mDatabase=FirebaseDatabase.getInstance();
+//        mReference=mDatabase.getReference("Users/"+uid+"/phone");
+//        mReference.addValueEventListener(new ValueEventListener(){
+//            public void onDataChange(DataSnapshot dataSnapshot){
+//                String phone_num=dataSnapshot.getValue().toString();
+//                phone.setText(phone_num);
+//            }
+//
+//            public void onCancelled(DatabaseError databaseError){
+//
+//            }
+//        });
 
         progressDialog.dismiss();
 
@@ -72,19 +62,19 @@ public class EditInfoActivity extends AppCompatActivity {
         edit_info.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 String phone_number=phone.getText().toString().trim();
-                reference=mDatabase.getReference();
-                reference.child("Users").child(uid_final).child("phone").setValue(phone_number);
-
-                new AlertDialog.Builder(EditInfoActivity.this)
-                        .setTitle("정보 변경 완료")
-                        .setMessage("입력하신 정보로 수정이 완료되었습니다.")
-                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dlg, int sumthin) {
-                                Intent intent=new Intent(getApplicationContext(), BottomBarActivity.class);
-                                startActivity(intent);
-                            }
-                        })
-                        .show(); // 팝업창 보여줌
+//                reference=mDatabase.getReference();
+//                reference.child("Users").child(uid_final).child("phone").setValue(phone_number);
+//
+//                new AlertDialog.Builder(EditInfoActivity.this)
+//                        .setTitle("정보 변경 완료")
+//                        .setMessage("입력하신 정보로 수정이 완료되었습니다.")
+//                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dlg, int sumthin) {
+//                                Intent intent=new Intent(getApplicationContext(), BottomBarActivity.class);
+//                                startActivity(intent);
+//                            }
+//                        })
+//                        .show(); // 팝업창 보여줌
             }
         });
 
