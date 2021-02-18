@@ -4,20 +4,16 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -34,6 +30,9 @@ public class MainActivity extends Activity {
     Button login;
     Button find;
     Button register;
+    ArrayList<String> pstr=new ArrayList<String>();
+    String[] arr;
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +77,30 @@ public class MainActivity extends Activity {
                                     .method("POST", body)
                                     .build();
                             Response response = client.newCall(request).execute();
+                            String result = response.body().string();
+
+                            int length=result.length();
+                            String output=result.substring(1,length-1);
+
+                            StringTokenizer st=new StringTokenizer(output,",:");
+                            //ArrayList<String> pstr=new ArrayList<String>();
+                            while(st.hasMoreTokens()){
+                                pstr.add(st.nextToken());
+                            }
+
+                            arr=new String[pstr.size()];
+                            arr=pstr.toArray(arr);
+
+                            for(int i=0;i<arr.length;i++){
+                                if(arr[i].equals("\"access_token\"")){
+                                    token=arr[i+1];
+                                }
+                            }
+
+                            if(token!=null){
+                                length=token.length();
+                                token=token.substring(1,length-1);
+                            }
 
                             responseResult = response.isSuccessful();
 
@@ -98,6 +121,8 @@ public class MainActivity extends Activity {
                     // If 200 OK,
                     if(responseResult){
                         Intent intent= new Intent(getApplicationContext(), BottomBarActivity.class);
+                        intent.putExtra("token", token);
+                        intent.putExtra("email",id_text);
                         startActivity(intent);
                     }
                     // Bad request

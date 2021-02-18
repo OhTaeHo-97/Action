@@ -11,12 +11,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -100,8 +98,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 // Wait Post process
                                 thd.join();
-                            } catch (InterruptedException e) {
-                                Log.e("thread join Error", "thread join Error");
+                            } catch(InterruptedException e){
+                                Log.e("thread join Error","thread join Error");
                             }
 
                             // If 200 OK,
