@@ -1,6 +1,8 @@
 package com.example.action;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -14,11 +16,20 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class BottomBarActivity extends AppCompatActivity {
     private BottomNavigationView mBottomNV;
     String email="";
+    String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottombar_activity);
+
+        Intent intent = getIntent();
+        if(intent!=null){
+            token = intent.getStringExtra("token");
+            email = intent.getStringExtra("email");
+        }
+        Log.e("token",token);
+        Log.e("Email",email);
 
         mBottomNV = findViewById(R.id.nav_view);
         mBottomNV.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() { //NavigationItemSelecte
@@ -46,6 +57,18 @@ public class BottomBarActivity extends AppCompatActivity {
         if (fragment == null) {
             if (id == R.id.main) {
                 fragment = new MyInfoFragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("token",token);
+                bundle.putString("email",email);
+                fragment.setArguments(bundle);
+                /*
+                 Bundle bundle = new Bundle();
+ String sendstr = 보낼 문자열;
+ bundle.putString("send", sendstr );
+ Fragment fragment = new Fragment();
+ fragment.setArguments(bundle);
+ tran.replace(R.id.fragment_test, fragment).commit();
+                 */
             } else if (id == R.id.write){
                 fragment = new CreateScriptFragment();
             } else if (id == R.id.feed){

@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +27,7 @@ public class MyInfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    //private CommunicateInterface communicateInterface;
 
     public MyInfoFragment() {
         // Required empty public constructor
@@ -75,20 +74,44 @@ public class MyInfoFragment extends Fragment {
         TabLayout tab=rootview.findViewById(R.id.tab);
         tab.setupWithViewPager(vp);
 
-        String email="";
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null){
             email=user.getEmail();
-        }
+        }*/
 
         Button info=(Button)rootview.findViewById(R.id.info);
+        String token = getArguments().getString("token");
+        String email=getArguments().getString("email");
+
         info.setText(email);
         info.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
+                //communicateInterface.CommunicateSet(token,email);
                 Intent intent=new Intent(getActivity(), EditInfoActivity.class);
+                intent.putExtra("token", token);
+                intent.putExtra("email",email);
                 startActivity(intent);
             }
         });
         return rootview;
     }
+
+    /*public interface CommunicateInterface {
+        void CommunicateSet(String t, String e);
+    }
+
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof CommunicateInterface){
+            communicateInterface = (CommunicateInterface) context;
+        }else{
+            throw new RuntimeException(context.toString()
+            +"must implement CommunciateInterface");
+        }
+    }
+
+    public void onDetach(){
+        super.onDetach();
+        communicateInterface=null;
+    }*/
 }

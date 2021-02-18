@@ -9,6 +9,7 @@ android {
         applicationId "com.example.action"
         minSdkVersion 19
         targetSdkVersion 30
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
 
@@ -45,5 +46,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.10.6'
     implementation platform('com.google.firebase:firebase-bom:26.5.0')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    compile 'com.android.support:multidex:1.0.3'
 
 }
