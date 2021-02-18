@@ -1,66 +1,67 @@
 package com.example.action.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.action.R;
+import com.example.action.fragment.WordLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CreateScriptFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class CreateScriptFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FloatingActionButton add_word_btn;
+    EditText edit_title;
+    Spinner genre_spinner;
 
     public CreateScriptFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateScriptFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CreateScriptFragment newInstance(String param1, String param2) {
-        CreateScriptFragment fragment = new CreateScriptFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_create_script, container, false);
+        Context ct = container.getContext();
+
+        // Get user inform
+        String token = getArguments().getString("token");
+        String email = getArguments().getString("email");
+        String user_id = getArguments().getString("user_id");
+
+        // Add word button
+        add_word_btn = (FloatingActionButton) rootView.findViewById(R.id.add_words_button);
+
+        add_word_btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                WordLayout n_layout = new WordLayout(getContext());
+                LinearLayout word_layout = (LinearLayout) rootView.findViewById(R.id.word_layout);
+                word_layout.addView(n_layout);
+            }
+        });
+
+        // Spinner
+        Spinner genreSpinner = rootView.findViewById(R.id.genre_spinner);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(ct, R.array.genre_list, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        genreSpinner.setAdapter(adapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_script, container, false);
+        return rootView;
     }
 }
