@@ -93,11 +93,6 @@ public class RegisterActivity extends AppCompatActivity {
                                             .build();
 
                                     Response response = client.newCall(request).execute();
-
-                                    Log.e("text","{\n    \"name\": \"test\",\n " +
-                                            "   \"email\": \"" + id + "\",\n  " +
-                                            "  \"phoneNumber\": \"" + phone_num + "\",\n  " +
-                                            "  \"password\": \"" + password + "\"\n}");
                                 } catch (IOException e) {
                                     Log.e("Response Error", "Response Error");
                                 }

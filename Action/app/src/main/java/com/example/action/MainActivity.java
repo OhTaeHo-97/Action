@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +17,18 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 
 public class MainActivity extends Activity {
+    public boolean responseResult;
+
     EditText id;
     EditText pw;
     Button login;
@@ -51,26 +64,56 @@ public class MainActivity extends Activity {
                             .show(); // 팝업창 보여줌
                 }
                 else{
-//                    firebaseAuth.signInWithEmailAndPassword(id_text,pw_text).addOnCompleteListener(MainActivity.this,new OnCompleteListener<AuthResult>(){
-//                        public void onComplete(@NonNull Task<AuthResult> task){
-//                            if(task.isSuccessful()){
-//                                Intent intent= new Intent(getApplicationContext(), BottomBarActivity.class);
-//                                startActivity(intent);
-//                            }
-//                            else{
-//                                new AlertDialog.Builder(MainActivity.this)
-//                                        .setTitle("로그인 오류")
-//                                        .setMessage("아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.")
-//                                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
-//                                            public void onClick(DialogInterface dlg, int sumthin) {
-//                                            /*Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                                            startActivity(intent);*/
-//                                            }
-//                                        })
-//                                        .show(); // 팝업창 보여줌
-//                            }
-//                        }
-//                    });
+                    // Post id & pw
+                     Thread thd1 = new Thread(new Runnable() { @Override public void run() {
+                        try{
+                            OkHttpClient client = new OkHttpClient().newBuilder().build();
+                            MediaType mediaType = MediaType.parse("text/plain");
+                            RequestBody body = RequestBody.create(mediaType, "");
+                            Request request = new Request.Builder()
+                                    .url("https://gateway.viewinter.ai/" +
+                                            "oauth/token?grant_type=password&client_id=ui&" +
+                                            "client_secret=d48ujflverdj348orj48dhwu43juw9u4fjklsdljfu9e409w0w94e8jidew89dl2&" +
+                                            "username=" + id_text + "&password=" + pw_text)
+                                    .method("POST", body)
+                                    .build();
+                            Response response = client.newCall(request).execute();
+
+                            responseResult = response.isSuccessful();
+
+                        }catch (IOException e) {
+                            Log.e("Login Response Error", "Response Error");
+                        }
+                    } });
+
+
+                    try {
+                        thd1.start();
+                        // Wait Post process
+                        thd1.join();
+                    } catch (InterruptedException e) {
+                        Log.e("thread join Error", "thread join Error");
+                    }
+
+                    // If 200 OK,
+                    if(responseResult){
+                        Intent intent= new Intent(getApplicationContext(), BottomBarActivity.class);
+                        startActivity(intent);
+                    }
+                    // Bad request
+                    else{
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("로그인 오류")
+                                .setMessage("아이디가 존재하지 않거나 비밀번호가 일치하지 않습니다.")
+                                .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dlg, int sumthin) {
+                                            /*Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                            startActivity(intent);*/
+                                    }
+                                })
+                                .show(); // 팝업창 보여줌
+                    }
+
                 }
             }
         });
