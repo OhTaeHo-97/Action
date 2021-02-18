@@ -70,10 +70,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                         if(password.equals(password_confirm)){
 
-                            /*final ProgressDialog mDialog = new ProgressDialog(RegisterActivity.this);
-                            mDialog.setMessage("가입중입니다...");
-                            mDialog.show();*/
-
                             Thread thd = new Thread(new Runnable() { @Override public void run() {
                                 try {
                                     OkHttpClient client = new OkHttpClient().newBuilder().build();
