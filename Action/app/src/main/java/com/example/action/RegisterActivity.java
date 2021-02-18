@@ -103,6 +103,17 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             } }).start();
 
+                            new AlertDialog.Builder(RegisterActivity.this)
+                                    .setTitle("회원가입 완료")
+                                    .setMessage("회원가입이 완료되었습니다!")
+                                    .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dlg, int sumthin) {
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .show();
+
                         }
 
                         else{
