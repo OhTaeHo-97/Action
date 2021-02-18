@@ -26,8 +26,7 @@ import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    final static private String URL = "https:// gateway.viewinter.ai/api/users";
-
+    public boolean responseResult;
 
     Button close;
     CheckBox check1;
@@ -73,11 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                         if(password.equals(password_confirm)){
 
-                            final ProgressDialog mDialog = new ProgressDialog(RegisterActivity.this);
-                            mDialog.setMessage("가입중입니다...");
-                            mDialog.show();
-
-                            new Thread(new Runnable() { @Override public void run() {
+                            Thread thd = new Thread(new Runnable() { @Override public void run() {
                                 try {
                                     OkHttpClient client = new OkHttpClient().newBuilder().build();
                                     MediaType mediaType = MediaType.parse("application/json");
@@ -93,21 +88,48 @@ public class RegisterActivity extends AppCompatActivity {
                                             .build();
 
                                     Response response = client.newCall(request).execute();
+
+                                    responseResult = response.isSuccessful();
                                 } catch (IOException e) {
                                     Log.e("Response Error", "Response Error");
                                 }
-                            } }).start();
+                            } });
 
-                            new AlertDialog.Builder(RegisterActivity.this)
-                                    .setTitle("회원가입 완료")
-                                    .setMessage("회원가입이 완료되었습니다!")
-                                    .setNeutralButton("확인", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dlg, int sumthin) {
-                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    })
-                                    .show();
+                            try {
+                                thd.start();
+
+                                // Wait Post process
+                                thd.join();
+                            } catch (InterruptedException e) {
+                                Log.e("thread join Error", "thread join Error");
+                            }
+
+                            // If 200 OK,
+                            if(responseResult){
+                                new AlertDialog.Builder(RegisterActivity.this)
+                                        .setTitle("회원가입 완료")
+                                        .setMessage("회원가입이 완료되었습니다!")
+                                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dlg, int sumthin) {
+                                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        })
+                                        .show();
+                            }
+                            // Bad request
+                            else{
+                                new AlertDialog.Builder(RegisterActivity.this)
+                                        .setTitle("회원가입 중복")
+                                        .setMessage("이미 가입한 회원입니다.")
+                                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dlg, int sumthin) {
+                                            /*Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                            startActivity(intent);*/
+                                            }
+                                        })
+                                        .show(); // 팝업창 보여줌
+                            }
 
                         }
 
