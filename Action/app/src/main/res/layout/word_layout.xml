@@ -66,6 +66,7 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/script_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:gravity="top"
