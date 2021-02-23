@@ -53,8 +53,8 @@ public class FindPWActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.complete:
-                    progressDialog.setMessage("처리중입니다. 잠시 기다려 주세요...");
-                    progressDialog.show();
+                    /*progressDialog.setMessage("처리중입니다. 잠시 기다려 주세요...");
+                    progressDialog.show();*/
 
                     String id=ID_text.getText().toString().trim();
                     String domain=spinner.getSelectedItem().toString().trim();
@@ -74,8 +74,28 @@ public class FindPWActivity extends AppCompatActivity {
                                     .method("GET", null)
                                     .build();
                             Response response = client.newCall(request).execute();
+
+                            /*OkHttpClient client = new OkHttpClient().newBuilder()
+                                    .build();
+                            MediaType mediaType = MediaType.parse("application/json");
+                            RequestBody body = RequestBody.create(mediaType,
+                                    "{\n    \"email\": \"" + email + "\",\n  " +
+                                            "  \"phoneNumber\": \"" + phone_num + "\"\n}");
+                            Request request = new Request.Builder()
+                                    .url("https://gateway.viewinter.ai/api/users/find-password")
+                                    .method("GET", null)
+                                    .build();
+                            Response response = client.newCall(request).execute();*/
                             String result = response.body().string();
                             Log.e("Result",result);
+
+                            //progressDialog.dismiss();
+
+                            if(result!=null||result.length()!=0){
+                                Log.e("RESULT",result);
+                            }
+                            else
+                                Log.e("FAIL","FAIL to find");
 
                             /*OkHttpClient client = new OkHttpClient().newBuilder().build();
                             MediaType mediaType = MediaType.parse("text/plain");
