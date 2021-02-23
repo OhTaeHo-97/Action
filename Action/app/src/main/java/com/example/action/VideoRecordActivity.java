@@ -10,6 +10,7 @@ import android.media.CamcorderProfile;
 import android.media.Image;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
@@ -30,20 +31,23 @@ import java.util.ArrayList;
 
 public class VideoRecordActivity extends AppCompatActivity {
 
-    Button recordStartBtn;
-    CameraSurfaceView surfaceView;
     private MediaRecorder mediaRecorder;
     private boolean recording = false;
     private int startFlag = 0;
-    private int cameraFacing = Camera.CameraInfo.CAMERA_FACING_FRONT;
+
+    String videoName = "test";
+
+    Button recordStartBtn;
+    CameraSurfaceView surfaceView;
 
     // Timer
+    Timer myTimer;
     private int timer = 0;
     Button btn30, btn60, btn90, btn120;
 
     TextView remainTime;
 
-    ImageButton backBtn,camFacingBtn;
+    ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +71,6 @@ public class VideoRecordActivity extends AppCompatActivity {
             }
         });
 
-        // Camera Facing Button
-        camFacingBtn = (ImageButton)findViewById(R.id.camera_facing_btn);
-        camFacingBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                cameraFacing = (cameraFacing == Camera.CameraInfo.CAMERA_FACING_FRONT) ? Camera.CameraInfo.CAMERA_FACING_BACK : Camera.CameraInfo.CAMERA_FACING_FRONT;
-                Log.e("cameraFacing", String.valueOf(cameraFacing));
-                //surfaceView.getCamera().
-            }
-        });
 
         // Timer setting
         btn30 = (Button)findViewById(R.id.second_30_button);
@@ -89,7 +83,7 @@ public class VideoRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 if(startFlag == 0){
-                    timer = 30;
+                    timer = 30000;
                     btn30.setBackgroundColor(Color.YELLOW);
                     btn60.setBackgroundColor(getResources().getColor(R.color.gray_light));
                     btn90.setBackgroundColor(getResources().getColor(R.color.gray_light));
@@ -104,7 +98,7 @@ public class VideoRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 if(startFlag == 0){
-                    timer = 60;
+                    timer = 60000;
                     btn30.setBackgroundColor(getResources().getColor(R.color.gray_light));
                     btn60.setBackgroundColor(Color.YELLOW);
                     btn90.setBackgroundColor(getResources().getColor(R.color.gray_light));
@@ -119,7 +113,7 @@ public class VideoRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 if(startFlag == 0){
-                    timer = 90;
+                    timer = 90000;
                     btn30.setBackgroundColor(getResources().getColor(R.color.gray_light));
                     btn60.setBackgroundColor(getResources().getColor(R.color.gray_light));
                     btn90.setBackgroundColor(Color.YELLOW);
@@ -134,7 +128,7 @@ public class VideoRecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 if(startFlag == 0){
-                    timer = 120;
+                    timer = 120000;
                     btn30.setBackgroundColor(getResources().getColor(R.color.gray_light));
                     btn60.setBackgroundColor(getResources().getColor(R.color.gray_light));
                     btn90.setBackgroundColor(getResources().getColor(R.color.gray_light));
@@ -161,19 +155,30 @@ public class VideoRecordActivity extends AppCompatActivity {
                             })
                             .show();
                 }
+                // Tap complete button
                 else if(recording){
                     mediaRecorder.stop();
                     mediaRecorder.release();
                     recording=false;
-                    Toast.makeText(VideoRecordActivity.this, "녹화파일이 저장되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(VideoRecordActivity.this, "컷!", Toast.LENGTH_SHORT).show();
                     recordStartBtn.setText("시작");
                     recordStartBtn.setBackgroundColor(getResources().getColor(R.color.buttonBlue));
                     startFlag = 0;
-                } else{
+
+                    myTimer.cancel();
+                    timer = 0;
+                    remainTime.setText("남은시간 00초");
+
+                    btn30.setBackgroundColor(getResources().getColor(R.color.gray_light));
+                    btn60.setBackgroundColor(getResources().getColor(R.color.gray_light));
+                    btn90.setBackgroundColor(getResources().getColor(R.color.gray_light));
+                    btn120.setBackgroundColor(getResources().getColor(R.color.gray_light));
+                }
+                else{
                     runOnUiThread(new Runnable(){
                         @SuppressLint("SdCardPath")
                         public void run(){
-                            Toast.makeText(VideoRecordActivity.this, "녹화가 시작되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VideoRecordActivity.this, "액션!", Toast.LENGTH_SHORT).show();
                             try {
                                 mediaRecorder = new MediaRecorder();
                                 mediaRecorder.setPreviewDisplay(surfaceView.holder.getSurface());
@@ -183,17 +188,23 @@ public class VideoRecordActivity extends AppCompatActivity {
                                 mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                                 mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
                                 mediaRecorder.setMaxDuration(timer); // timer
-                                mediaRecorder.setOrientationHint(90);
+                                mediaRecorder.setOrientationHint(270);
                                 mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-                                mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory() + "/DCIM/Camera/test.mp4");
+                                mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory() + "/DCIM/Camera/"+ videoName +".mp4");
                                 mediaRecorder.prepare();
                                 mediaRecorder.start();
 
                                 recording = true;
 
+                                // Timer
+                                myTimer = new Timer(timer, 1000);
+                                myTimer.start();
+
                                 recordStartBtn.setText("완료");
                                 recordStartBtn.setBackgroundColor(getResources().getColor(R.color.buttonOrange));
                                 startFlag = 1;
+
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 mediaRecorder.release();
@@ -221,4 +232,36 @@ public class VideoRecordActivity extends AppCompatActivity {
             Toast.makeText(VideoRecordActivity.this, "권한 거부", Toast.LENGTH_SHORT).show();
         }
     };
+
+    public class Timer extends CountDownTimer {
+
+        public Timer(long millisInFuture, long countDownInterval)
+        {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            remainTime.setText("남은시간 " + millisUntilFinished/1000 + "초");
+        }
+
+        @Override
+        public void onFinish() {
+            remainTime.setText("남은시간 00초");
+            mediaRecorder.stop();
+            mediaRecorder.release();
+            recording=false;
+            Toast.makeText(VideoRecordActivity.this, "컷!", Toast.LENGTH_SHORT).show();
+            recordStartBtn.setText("시작");
+            recordStartBtn.setBackgroundColor(getResources().getColor(R.color.buttonBlue));
+            startFlag = 0;
+
+            btn30.setBackgroundColor(getResources().getColor(R.color.gray_light));
+            btn60.setBackgroundColor(getResources().getColor(R.color.gray_light));
+            btn90.setBackgroundColor(getResources().getColor(R.color.gray_light));
+            btn120.setBackgroundColor(getResources().getColor(R.color.gray_light));
+        }
+
+    }
 }
+

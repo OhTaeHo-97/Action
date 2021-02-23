@@ -3,27 +3,20 @@ package com.example.action;
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.Size;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
-import java.util.List;
+
 
 public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
 
     SurfaceHolder holder;
     Camera camera = null;
     Camera.Parameters params;
+    int mCameraFacing;
 
     public CameraSurfaceView(Context context) {
-        super(context);
-
-        init(context);
-    }
-
-    public CameraSurfaceView(Context context, int cameraFacing) {
         super(context);
 
         init(context);
