@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -79,7 +78,8 @@ public class MyInfoFragment extends Fragment {
     boolean responseResult;
     ArrayList<String> pstr = new ArrayList<String>();
     String[] arr;
-    List<ScriptLayout> scriptLayoutList=new ArrayList<ScriptLayout>();
+    List<ScriptLayout[]> scriptLayoutList=new ArrayList<ScriptLayout[]>();
+    List<Button> buttons=new ArrayList<Button>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,146 +109,64 @@ public class MyInfoFragment extends Fragment {
                 Log.e("USER_ID",user_id);
 
                 String result = response.body().string();
-                Log.e("wow",result);
+                //Log.e("wow",result);
+                //List<JSONArray> jsonArray_list=new ArrayList<JSONArray>();
+                /*for(int i=0;i<json_list.length;i++)
+                    jsonArray_list.add(json_list[i].optJSONArray("scripts"));//
 
-                JSONObject jsonObject=new JSONObject(result);
-                JSONArray jsonArray=jsonObject.getJSONArray("scripts");
-                for(int i=0;i<jsonArray.length();i++){
+                JSONArray[] jsonArrays=new JSONArray[jsonArray_list.size()];
+                jsonArray_list.toArray(jsonArrays);
+
+                jsonObjectList=new ArrayList<JSONObject>();
+
+                for(int i=0;i<title.length;i++){
+
+                }
+                for(int i=0;i<jsonArrays.length;i++){
+                    jsonObjectList.add(jsonArrays[i].getJSONObject(i));
+                    for(int j=0;j<jsonObjectList.size();j++){
+
+                    }
+                }*/
+
+                /*for(int i=0;i<jsonArray.length();i++){
                     try{
                         JSONObject jsonObject1=jsonArray.getJSONObject(i);
-                        //String item=jsonObject
+                        String title_text=jsonObject.getString("title");
+                        Log.e("asdf",title_text);
                     }catch(JSONException e){
 
                     }
-                }
-                String title_text=jsonObject.getString("scenarios");
-                Log.e("asdf",title_text);
-
-
+                }*/
 
                 if(result!=null||result.length()!=0){
-                    StringTokenizer st = new StringTokenizer(result,"{}");
-                    while(st.hasMoreTokens()){
-                        pstr.add(st.nextToken());
-                    }
-                    arr=new String[pstr.size()];
-                    arr=pstr.toArray(arr);
+                    JSONObject jsonObject=new JSONObject(result);
+                    JSONObject jsonObject1=jsonObject.optJSONObject("_embedded");
+                    JSONArray jsonArray=jsonObject1.optJSONArray("scenarios");
+                    List<JSONObject> jsonObjectList=new ArrayList<JSONObject>();
+                    for(int i=0;i<jsonArray.length();i++)
+                        jsonObjectList.add(jsonArray.getJSONObject(i));//object로 scenario 2개
 
-                    pstr.clear();
-                    for(int i=0;i<arr.length;i++){
-                        if(arr[i].contains("\"title\"")&&arr[i].contains("\"userId\""))
-                            pstr.add(arr[i]);
-                    }
-                    String[] title=new String[pstr.size()];
-                    ArrayList<String> title_list=new ArrayList<String>();
-                    ArrayList<String> title_list2=new ArrayList<String>();
-                    title=pstr.toArray(title);
-                    int title_length=title.length;
+                    JSONObject[] json_list=new JSONObject[jsonObjectList.size()];
+                    jsonObjectList.toArray(json_list);
 
-                    for(int i=0;i<title_length;i++){
-                        st=new StringTokenizer(title[i],":");
-                        while(st.hasMoreTokens()){
-                            title_list.add(st.nextToken());
-                        }
-                        String[] title_array=new String[title_list.size()];
-                        title_list.toArray(title_array);
-                        for(int j=0;j<title_array.length;j++){
-                            if(title_array[j].contains("\"title\""))
-                                title_list2.add(title_array[j+1]);
-                        }
-                        title_list.clear();
-                    }
-
-                    title=new String[title_list2.size()];
-                    title_list2.toArray(title);
-
-                    for(int i=0;i<title.length;i++)
-                        title[i]=title[i].trim();
-
-                    String[] title_array=new String[title.length];
-                    int index_Of;
-                    for(int i=0;i<title.length;i++){
-                        index_Of=title[i].indexOf("\"",1);
-                        title_array[i]=title[i].substring(1,index_Of);
-                    }
-
-                    ArrayList<Integer> index=new ArrayList<>();
-                    int count=0;
-                    for(int i=0;i<arr.length;i++){
-                        if(arr[i].contains(title_array[count])){
-                            index.add(i);
-                            count++;
-                        }
-                        if(count==title_array.length){
-                            break;
-                        }
-                    }
-
-                    int[] index_list=new int[index.size()];
-                    for(int i=0;i<index_list.length;i++)
-                        index_list[i]=index.get(i);
-
-                    ArrayList<String[]> script=new ArrayList<String[]>();
-                    pstr.clear();
-                    String[] script_list;
-
-                    for(int i=0;i<index_list.length;i++){
-                        for(int j=index_list[i]+1;j<arr.length;j++){
-                            if(i==index_list.length-1)
-                                pstr.add(arr[j]);
-                            else{
-                                if(j==index_list[i+1])
-                                    break;
-                                pstr.add(arr[j]);
-                            }
-                        }
-                        script_list=new String[pstr.size()];
-                        script_list=pstr.toArray(script_list);
-                        pstr.clear();
-                        for(int j=0;j<script_list.length;j++){
-                            if(script_list[j].contains("\"scriptText\""))
-                                pstr.add(script_list[j]);
-                        }
-                        script_list=new String[pstr.size()];
-                        script_list=pstr.toArray(script_list);
-                        script.add(script_list);
-                        pstr.clear();
-                    }
-
-                    String[][] each_script=new String[script.size()][];
-                    for(int i=0;i<script.size();i++){
-                        String[] row=script.get(i);
-                        each_script[i]=new String[row.length];
-                        for(int j=0;j<row.length;j++)
-                            each_script[i][j]=row[j];
+                    String[] title=new String[jsonObjectList.size()];
+                    for(int i=0;i<json_list.length;i++){
+                        title[i]=json_list[i].getString("title");//title 뽑아냄
                     }
 
                     LinearLayout script_layout=(LinearLayout)rootview.findViewById(R.id.script_layout);
-                    //int btn_id=0;
+                    List<JSONArray> jsonArray_list=new ArrayList<JSONArray>();
 
-                    for(int i=0;i<each_script.length;i++){
-                        Button edit=new Button(getActivity());
-                        edit.setId(i);
-                        edit.setText("수정");
-                        /*Button with=new Button(getActivity());
-                        with.setId(btn_id+1);
-                        btn_id=btn_id+1;
-                        with.setText("함께 하기");*/
+                    for(int i=0;i<json_list.length;i++){
                         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
                         LinearLayout linear=new LinearLayout(getActivity());
-                        edit.setLayoutParams(params);
-
-                        linear.addView(edit);
-                        script_layout.addView(linear);
-                        linear=new LinearLayout(getActivity());
-
                         TextView view1=new TextView(getActivity());
                         view1.setText("제목: ");
                         view1.setTextSize(30);
                         TextView view2=new TextView(getActivity());
-                        view2.setText(title_array[i]);
+                        view2.setText(title[i]);
                         view2.setTextSize(30);
-
                         view1.setLayoutParams(params);
                         view2.setLayoutParams(params);
 
@@ -256,35 +174,41 @@ public class MyInfoFragment extends Fragment {
                         linear.addView(view2);
 
                         script_layout.addView(linear);
-                        int total_count=0;
 
-                        for(int j=0;j<each_script[i].length;j++){
+                        JSONArray jsonArray1=json_list[i].optJSONArray("scripts");// 각 scenario 별 script에 대한 Array
+                        jsonObjectList=new ArrayList<JSONObject>();
+                        for(int j=0;j<jsonArray1.length();j++){
+                            jsonObjectList.add(jsonArray1.getJSONObject(j)); // 각 scenario 별 script list
+                        }
+                        JSONObject[] jsonObjects=new JSONObject[jsonObjectList.size()];
+                        jsonObjectList.toArray(jsonObjects);
+                        String emotion;
+                        String name;
+                        String script_text;
+                        ScriptLayout[] scriptLayouts=new ScriptLayout[jsonObjects.length];
+                        for(int j=0;j<jsonObjects.length;j++){
+                            emotion=jsonObjects[j].getString("emotionName");
+                            name=jsonObjects[j].getString("roleName");
+                            script_text=jsonObjects[j].getString("scriptText");
+                            Log.e("SCRIPT",script_text);
+
                             ScriptLayout sl=new ScriptLayout(getActivity());
                             script_layout.addView(sl);
-                            scriptLayoutList.add(sl);
-                            pstr.clear();
-                            String name;
-                            String feeling="";
-                            String script_text="";
-                            st=new StringTokenizer(each_script[i][j],":");
-                            while(st.hasMoreTokens())
-                                pstr.add(st.nextToken());
-                            String[] tokens=new String[pstr.size()];
-                            pstr.toArray(tokens);
-                            for(int l=0;l<tokens.length;l++){
-                                if(tokens[l].contains("\"emotionName\""))
-                                    feeling=tokens[l+1];
-                                if(tokens[l].contains("\"scriptText\""))
-                                    script_text=tokens[l+1];
-                            }
-                            ScriptLayout scriptLayout=scriptLayoutList.get(total_count);
+                            scriptLayouts[j]=sl;
+
+                            ScriptLayout scriptLayout=scriptLayouts[j];
+
                             Button script1=scriptLayout.findViewById(R.id.script1);
-                            TextView emotion=scriptLayout.findViewById(R.id.emotion);
+                            TextView emotion_tv=scriptLayout.findViewById(R.id.emotion);
+                            TextView name_tv=scriptLayout.findViewById(R.id.name);
+                            buttons.add(script1);
                             script1.setText(script_text);
-                            emotion.setText(feeling);
-                            total_count++;
+                            emotion_tv.setText(emotion);
+                            name_tv.setText(name);
                         }
+                        scriptLayoutList.add(scriptLayouts);
                     }
+
                 }
 
                 responseResult = response.isSuccessful();
@@ -300,6 +224,18 @@ public class MyInfoFragment extends Fragment {
             thd.join();
         } catch(InterruptedException e){
             Log.e("thread join Error","thread join Error");
+        }
+
+        if(buttons.size()!=0){
+            for(int i=0;i<buttons.size();i++){
+                buttons.get(i).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //communicateInterface.CommunicateSet(token,email);
+                        Intent intent=new Intent(getActivity(), SelectPopUpActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
 
         info.setText(email);
