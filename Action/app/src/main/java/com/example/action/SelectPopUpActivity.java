@@ -1,6 +1,7 @@
 package com.example.action;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -20,8 +21,8 @@ public class SelectPopUpActivity extends Activity {
 
         record.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                /*Intent intent=new Intent(getApplicationContext(),BottomBarActivity.class);
-                startActivity(intent);*/
+                Intent intent=new Intent(getApplicationContext(),VideoRecordActivity.class);
+                startActivity(intent);
             }
         });
 
