@@ -139,8 +139,6 @@ public class CreateScriptFragment extends Fragment {
 
                     String finalScript_info = script_info;
 
-                    Log.e("script", finalScript_info);
-
                     Thread thd = new Thread(new Runnable() {
                         @Override
                         public void run() {
