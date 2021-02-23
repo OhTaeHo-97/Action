@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.Image;
@@ -27,7 +28,16 @@ import com.gun0912.tedpermission.TedPermission;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class VideoRecordActivity extends AppCompatActivity {
 
@@ -35,10 +45,13 @@ public class VideoRecordActivity extends AppCompatActivity {
     private boolean recording = false;
     private int startFlag = 0;
 
+    public boolean responseResult;
+
     String videoName = "test";
 
     Button recordStartBtn;
     CameraSurfaceView surfaceView;
+    ProgressDialog progressDialog;
 
     // Timer
     Timer myTimer;
@@ -161,6 +174,8 @@ public class VideoRecordActivity extends AppCompatActivity {
                     mediaRecorder.release();
                     recording=false;
                     Toast.makeText(VideoRecordActivity.this, "컷!", Toast.LENGTH_SHORT).show();
+                    POSTData(videoName);
+
                     recordStartBtn.setText("시작");
                     recordStartBtn.setBackgroundColor(getResources().getColor(R.color.buttonBlue));
                     startFlag = 0;
@@ -233,6 +248,77 @@ public class VideoRecordActivity extends AppCompatActivity {
         }
     };
 
+    private void POSTData(String fileName){
+        Thread thd = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("text/plain");
+                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("userId","{{userId}}")
+                            .addFormDataPart("scriptId","{{scriptId}}")
+                            .addFormDataPart("file","",
+                                    RequestBody.create(MediaType.parse("application/octet-stream"),
+                                            new File(Environment.getExternalStorageDirectory() + "/DCIM/Camera/" + fileName + ".mp4")))
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("https://gateway.viewinter.ai/api/videos/upload")
+                            .method("POST", body)
+                            .addHeader("Authorization", "Bearer {{token}}")
+                            .build();
+                    Response response = client.newCall(request).execute();
+
+                    responseResult = response.isSuccessful();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("Video POST Error", "Video POST Error");
+                }
+            }
+        });
+
+        try {
+            thd.start();
+
+            // Progress Dialog
+            progressDialog = new ProgressDialog(this);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.show();
+
+            // Wait Post process
+            thd.join();
+
+            // End Post thread
+            progressDialog.cancel();
+            if(responseResult) {
+                new AlertDialog.Builder(this)
+                        .setTitle("영상 업로드")
+                        .setMessage("업로드 성공!")
+                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dlg, int sumthin) {
+                                finish();
+                            }
+                        })
+                        .show();
+            }
+            else {
+                new AlertDialog.Builder(this)
+                        .setTitle("영상 업로드")
+                        .setMessage("업로드 실패!")
+                        .setNeutralButton("확인", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dlg, int sumthin) {
+                            }
+                        })
+                        .show();
+            }
+
+        } catch (InterruptedException e) {
+            Log.e("thread join Error", "thread join Error");
+        }
+    }
+
     public class Timer extends CountDownTimer {
 
         public Timer(long millisInFuture, long countDownInterval)
@@ -252,6 +338,7 @@ public class VideoRecordActivity extends AppCompatActivity {
             mediaRecorder.release();
             recording=false;
             Toast.makeText(VideoRecordActivity.this, "컷!", Toast.LENGTH_SHORT).show();
+            POSTData(videoName);
             recordStartBtn.setText("시작");
             recordStartBtn.setBackgroundColor(getResources().getColor(R.color.buttonBlue));
             startFlag = 0;
