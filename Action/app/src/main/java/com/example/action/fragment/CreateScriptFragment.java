@@ -104,7 +104,7 @@ public class CreateScriptFragment extends Fragment {
                 String title = edit_title.getText().toString();
                 String genre = genreSpinner.getSelectedItem().toString();
                 Spinner emotionSpinner;
-                EditText scriptEditText;
+                EditText roleNameEditText, scriptEditText;
                 String script_info = "";
 
                 if (title.equals("")) {
@@ -121,12 +121,15 @@ public class CreateScriptFragment extends Fragment {
                         WordLayout n_wordLayout = wordLayoutList.get(i);
                         emotionSpinner = n_wordLayout.findViewById(R.id.emotion_spinner);
                         scriptEditText = n_wordLayout.findViewById(R.id.script_edit_text);
+                        roleNameEditText = n_wordLayout.findViewById(R.id.edit_cast);
 
                         String emotion = emotionSpinner.getSelectedItem().toString();
                         String script = scriptEditText.getText().toString();
+                        String roleName = roleNameEditText.getText().toString();
 
-                        script_info = script_info + "{\n\"emotionName\": \"" + emotion + "\",\n" +
-                                "\"scriptText\": \"" + script + "\"\n}";
+                        script_info = script_info + "{\n\"roleName\": \"" + roleName + "\"," +
+                                "\n\"emotionName\": \"" + emotion + "\"," +
+                                "\n\"scriptText\": \"" + script + "\"\n}";
 
                         if (i < wordLayoutList.size() - 1) {
                             script_info = script_info + ", ";
