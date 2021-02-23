@@ -59,13 +59,14 @@
 
                 <Spinner
                     android:id="@+id/emotion_spinner"
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="15dp"/>
 
             </LinearLayout>
 
             <EditText
+                android:id="@+id/script_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:gravity="top"
