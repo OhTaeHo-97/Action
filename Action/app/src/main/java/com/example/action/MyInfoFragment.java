@@ -80,6 +80,7 @@ public class MyInfoFragment extends Fragment {
     String[] arr;
     List<ScriptLayout[]> scriptLayoutList=new ArrayList<ScriptLayout[]>();
     List<Button> buttons=new ArrayList<Button>();
+    List<Integer> id_list=new ArrayList<Integer>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -158,6 +159,8 @@ public class MyInfoFragment extends Fragment {
                     LinearLayout script_layout=(LinearLayout)rootview.findViewById(R.id.script_layout);
                     List<JSONArray> jsonArray_list=new ArrayList<JSONArray>();
 
+                    int c=0;
+
                     for(int i=0;i<json_list.length;i++){
                         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
                         LinearLayout linear=new LinearLayout(getActivity());
@@ -197,14 +200,30 @@ public class MyInfoFragment extends Fragment {
                             scriptLayouts[j]=sl;
 
                             ScriptLayout scriptLayout=scriptLayouts[j];
-
-                            Button script1=scriptLayout.findViewById(R.id.script1);
                             TextView emotion_tv=scriptLayout.findViewById(R.id.emotion);
                             TextView name_tv=scriptLayout.findViewById(R.id.name);
-                            buttons.add(script1);
-                            script1.setText(script_text);
                             emotion_tv.setText(emotion);
                             name_tv.setText(name);
+
+                            Button button=new Button(getActivity());
+                            button.setId(c);
+                            button.setText(script_text);
+                            button.setLayoutParams(params);
+                            buttons.add(button);
+
+                            buttons.get(c).setOnClickListener(new View.OnClickListener(){
+                                public void onClick(View v){
+                                    int tag=(Integer)v.getId();
+                                    Log.e("TAG",Integer.toString(tag));
+                                    Intent intent=new Intent(getActivity(), SelectPopUpActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+
+                            linear=new LinearLayout(getActivity());
+                            linear.addView(button);
+                            script_layout.addView(linear);
+                            c++;
                         }
                         scriptLayoutList.add(scriptLayouts);
                     }
@@ -226,17 +245,19 @@ public class MyInfoFragment extends Fragment {
             Log.e("thread join Error","thread join Error");
         }
 
+        /*int length=buttons.size();
         if(buttons.size()!=0){
             for(int i=0;i<buttons.size();i++){
                 buttons.get(i).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
                         //communicateInterface.CommunicateSet(token,email);
+                        Log.e("asdfg",Integer.toString(a));
                         Intent intent=new Intent(getActivity(), SelectPopUpActivity.class);
                         startActivity(intent);
                     }
                 });
             }
-        }
+        }*/
 
         info.setText(email);
         info.setOnClickListener(new View.OnClickListener(){

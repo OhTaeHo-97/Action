@@ -76,6 +76,26 @@ public class FeedFragment extends Fragment {
         });
 
         video=rootview.findViewById(R.id.video);
+        /*
+        // MediaController : 특정 View 위에서 작동하는 미디어 컨트롤러 객체
+        MediaController mc = new MediaController(this);
+        vv.setMediaController(mc); // Video View 에 사용할 컨트롤러 지정
+
+        String path = Environment.getExternalStorageDirectory()
+                .getAbsolutePath(); // 기본적인 절대경로 얻어오기
+
+
+        // 절대 경로 = SDCard 폴더 = "stroage/emulated/0"
+        //          ** 이 경로는 폰마다 다를수 있습니다.**
+        // 외부메모리의 파일에 접근하기 위한 권한이 필요 AndroidManifest.xml에 등록
+        Log.d("test", "절대 경로 : " + path);
+
+        vv.setVideoPath(path+"/video/kakaotalk_1458998519582.3gp");
+                               // VideoView 로 재생할 영상
+                               // 아까 동영상 [상세정보] 에서 확인한 경로
+        vv.requestFocus(); // 포커스 얻어오기
+        vv.start(); // 동영상 재생
+         */
         Uri videoUri=Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
 
         //비디오뷰의 재생, 일시정지 등을 할 수 있는 컨트롤바를 붙여주는 작업
