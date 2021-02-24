@@ -47,7 +47,8 @@ public class VideoRecordActivity extends AppCompatActivity {
 
     public boolean responseResult;
 
-    String videoName = "test";
+    String token, user_id, script_id, script_text;
+    String videoName;
 
     Button recordStartBtn;
     CameraSurfaceView surfaceView;
@@ -58,7 +59,7 @@ public class VideoRecordActivity extends AppCompatActivity {
     private int timer = 0;
     Button btn30, btn60, btn90, btn120;
 
-    TextView remainTime;
+    TextView scriptTV, remainTime;
 
     ImageButton backBtn;
 
@@ -67,6 +68,17 @@ public class VideoRecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_record);
 
+        Intent intent = getIntent();
+        if(intent!=null){
+            token = intent.getStringExtra("token");
+            user_id = intent.getStringExtra("user_id");
+            script_id = intent.getStringExtra("script_id");
+            script_text = intent.getStringExtra("script_text");
+        }
+
+        // Set video name
+        videoName = user_id + script_id + "_video";
+
         // Permission for using camera
         TedPermission.with(this)
                 .setPermissionListener(permission)
@@ -74,6 +86,10 @@ public class VideoRecordActivity extends AppCompatActivity {
                 .setDeniedMessage("권한이 거부되었습니다. 설정 > 권한에서 허용해주세요.")
                 .setPermissions(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.RECORD_AUDIO)
                 .check();
+
+        // Script
+        scriptTV = (TextView)findViewById(R.id.video_record_script);
+        scriptTV.setText(script_text);
 
         // Back Button
         backBtn = (ImageButton)findViewById(R.id.video_record_back_btn);
@@ -174,7 +190,7 @@ public class VideoRecordActivity extends AppCompatActivity {
                     mediaRecorder.release();
                     recording=false;
                     Toast.makeText(VideoRecordActivity.this, "컷!", Toast.LENGTH_SHORT).show();
-                    POSTData(videoName);
+                    POSTData();
 
                     recordStartBtn.setText("시작");
                     recordStartBtn.setBackgroundColor(getResources().getColor(R.color.buttonBlue));
@@ -240,6 +256,7 @@ public class VideoRecordActivity extends AppCompatActivity {
             Toast.makeText(VideoRecordActivity.this, "권한 허가", Toast.LENGTH_SHORT).show();
 
             surfaceView = findViewById(R.id.surfaceView);
+
         }
 
         @Override
@@ -248,7 +265,7 @@ public class VideoRecordActivity extends AppCompatActivity {
         }
     };
 
-    private void POSTData(String fileName){
+    private void POSTData(){
         Thread thd = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -257,20 +274,22 @@ public class VideoRecordActivity extends AppCompatActivity {
                             .build();
                     MediaType mediaType = MediaType.parse("text/plain");
                     RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                            .addFormDataPart("userId","{{userId}}")
-                            .addFormDataPart("scriptId","{{scriptId}}")
+                            .addFormDataPart("userId", user_id)
+                            .addFormDataPart("scriptId", script_id)
                             .addFormDataPart("file","",
                                     RequestBody.create(MediaType.parse("application/octet-stream"),
-                                            new File(Environment.getExternalStorageDirectory() + "/DCIM/Camera/" + fileName + ".mp4")))
+                                            new File(Environment.getExternalStorageDirectory() + "/DCIM/Camera/" + videoName + ".mp4")))
                             .build();
                     Request request = new Request.Builder()
                             .url("https://gateway.viewinter.ai/api/videos/upload")
                             .method("POST", body)
-                            .addHeader("Authorization", "Bearer {{token}}")
+                            .addHeader("Authorization", "Bearer " + token)
                             .build();
                     Response response = client.newCall(request).execute();
 
                     responseResult = response.isSuccessful();
+
+                    Log.e("Thread run", response.body().string());
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -280,13 +299,12 @@ public class VideoRecordActivity extends AppCompatActivity {
         });
 
         try {
-            thd.start();
-
             // Progress Dialog
-            progressDialog = new ProgressDialog(this);
+            progressDialog = new ProgressDialog(VideoRecordActivity.this);
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
             progressDialog.show();
 
+            thd.start();
             // Wait Post process
             thd.join();
 
@@ -338,7 +356,7 @@ public class VideoRecordActivity extends AppCompatActivity {
             mediaRecorder.release();
             recording=false;
             Toast.makeText(VideoRecordActivity.this, "컷!", Toast.LENGTH_SHORT).show();
-            POSTData(videoName);
+            POSTData();
             recordStartBtn.setText("시작");
             recordStartBtn.setBackgroundColor(getResources().getColor(R.color.buttonBlue));
             startFlag = 0;

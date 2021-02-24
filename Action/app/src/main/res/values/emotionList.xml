@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="emotion_list">
-        <item>감정1</item>
-        <item>감정2</item>
-        <item>감정3</item>
-        <item>감정4</item>
-        <item>감정5</item>
-        <item>감정6</item>
-        <item>감정7</item>
+        <item></item>
+        <item>평범</item>
+        <item>기쁨</item>
+        <item>슬픔</item>
+        <item>혐오</item>
+        <item>공포</item>
+        <item>화남</item>
+        <item>놀람</item>
     </string-array>
 
 </resources>

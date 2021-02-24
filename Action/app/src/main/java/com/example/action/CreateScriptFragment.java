@@ -1,8 +1,7 @@
-package com.example.action.fragment;
+package com.example.action;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,9 +17,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.action.MainActivity;
-import com.example.action.R;
-import com.example.action.fragment.WordLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;

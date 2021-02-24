@@ -1,4 +1,4 @@
-package com.example.action.fragment;
+package com.example.action;
 
 import android.content.Context;
 import android.util.AttributeSet;

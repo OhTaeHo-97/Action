@@ -92,6 +92,12 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="120dp">
+        <TextView
+            android:id="@+id/video_record_script"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textSize="20dp"/>
 
     </androidx.core.widget.NestedScrollView>
 
