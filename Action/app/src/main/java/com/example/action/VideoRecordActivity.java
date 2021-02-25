@@ -48,6 +48,7 @@ public class VideoRecordActivity extends AppCompatActivity {
     public boolean responseResult;
 
     String token, user_id, script_id, script_text;
+    int numOfVideos;
     String videoName;
 
     Button recordStartBtn;
@@ -74,10 +75,11 @@ public class VideoRecordActivity extends AppCompatActivity {
             user_id = intent.getStringExtra("user_id");
             script_id = intent.getStringExtra("script_id");
             script_text = intent.getStringExtra("script_text");
+            numOfVideos = intent.getIntExtra("number_of_videos", -1) + 1;
         }
 
         // Set video name
-        videoName = user_id + script_id + script_text.length() + "_video";
+        videoName = user_id + script_id + numOfVideos + "_video";
 
         // Permission for using camera
         TedPermission.with(this)

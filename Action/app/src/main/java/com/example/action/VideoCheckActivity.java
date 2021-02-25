@@ -2,7 +2,9 @@ package com.example.action;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -36,7 +38,8 @@ public class VideoCheckActivity extends AppCompatActivity {
     private VideoCheckRVAdapter adapter;
     private boolean responseResult = false;
 
-    String token, script_id;
+    String token, script_id, user_id;
+    int numOfVideos;
 
     ImageButton backBtn;
 
@@ -47,8 +50,10 @@ public class VideoCheckActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if(intent!=null){
+            user_id = intent.getStringExtra("user_id");
             token = intent.getStringExtra("token");
             script_id = intent.getStringExtra("script_id");
+            numOfVideos = intent.getIntExtra("number_of_videos", -1);
         }
 
         // Set RecyclerView
@@ -62,7 +67,6 @@ public class VideoCheckActivity extends AppCompatActivity {
 
         GETData();
 
-        getRVItems();
 
         // Back Button
         backBtn = (ImageButton)findViewById(R.id.video_check_back_btn);
@@ -74,17 +78,19 @@ public class VideoCheckActivity extends AppCompatActivity {
         });
     }
 
-    private void getRVItems() {
+    private void getRVItems(String[] createTime, Bitmap[] videoBitmap) {
 
         VideoCheckItem items = new VideoCheckItem();
 
-//        for(int i = 0; i < createTime.length; i++)
-//        {
-//            items.setCreateTime(createTime[i]);
-//            items.setVideoID(R.drawable.exo_controls_next);
-//        }
-        items.setCreateTime("asdasd");
-        items.setVideoID(R.drawable.exo_controls_next);
+        for(int i = 0; i < createTime.length; i++)
+        {
+            items.setCreateTime(createTime[i]);
+        }
+
+        for(int i = 0; i < numOfVideos; i++)
+        {
+            items.setVideoBitmap(videoBitmap[i]);
+        }
 
         adapter.addItem(items);
         adapter.notifyDataSetChanged();
@@ -103,7 +109,7 @@ public class VideoCheckActivity extends AppCompatActivity {
                             .url("https://gateway.viewinter.ai/api/videos/query/paging?" +
                                     "search=scriptId:" + script_id + "&size=1000&page=0&sort=createTime,desc")
                             .method("GET", null)
-                            .addHeader("Authorization", "Bearer " +token)
+                            .addHeader("Authorization", "Bearer " + token)
                             .build();
                     Response response = client.newCall(request).execute();
 
@@ -129,16 +135,29 @@ public class VideoCheckActivity extends AppCompatActivity {
                     JSONObject[] json_list=new JSONObject[jsonObjectList.size()];
                     jsonObjectList.toArray(json_list);
 
-                    String[] videoIDList = new String[jsonObjectList.size()];
+                    //String[] videoIDList = new String[jsonObjectList.size()];
                     String[] createTimeList = new String[jsonObjectList.size()];
 
                     for(int i = 0; i < json_list.length; i++) {
-                        videoIDList[i] = json_list[i].getString("id");
+                        //videoIDList[i] = json_list[i].getString("id");
                         createTimeList[i] = json_list[i].getString("createTime");
                     }
 
-                    GETVideo(videoIDList[0]);
+                    // Thumbnail
+                    Bitmap[] videoBitmapList = new Bitmap[numOfVideos];
+                    for(int i = 0; i < numOfVideos; i++){
+                        int num = i + 1;
+                        String videoName = user_id + script_id + num + "_video";
+                        String videoPath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/"+ videoName +".mp4";
 
+                        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                        mediaMetadataRetriever.setDataSource( videoPath );
+                        Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime(3000000);
+
+                        videoBitmapList[i] = bitmap;
+                    }
+
+                    getRVItems(createTimeList, videoBitmapList);
 
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
@@ -173,39 +192,39 @@ public class VideoCheckActivity extends AppCompatActivity {
     }
 
 
-    private void GETVideo(String videoID) {
-        Thread thd = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient().newBuilder()
-                            .build();
-                    Request request = new Request.Builder()
-                            .url("https://gateway.viewinter.ai/api/videos/" + videoID + "/stream?token=" + token)
-                            .method("GET", null)
-                            .build();
-                    Response response = client.newCall(request).execute();
-
-                    InputStream is = response.body().byteStream();
-
-                    Log.e("VideoData", response.header("Content-Length"));
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e("Video GET Error", "Error");
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        });
-
-        try {
-            thd.start();
-            // Wait GET process
-            thd.join();
-        } catch (InterruptedException e) {
-            Log.e("thread join Error", "thread join Error");
-        }
-
-    }
+//    private void GETVideo(String videoID) {
+//        Thread thd = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    OkHttpClient client = new OkHttpClient().newBuilder()
+//                            .build();
+//                    Request request = new Request.Builder()
+//                            .url("https://gateway.viewinter.ai/api/videos/" + videoID + "/stream?token=" + token)
+//                            .method("GET", null)
+//                            .build();
+//                    Response response = client.newCall(request).execute();
+//
+//                    InputStream is = response.body().byteStream();
+//
+//                    Log.e("VideoData", response.header("Content-Length"));
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Log.e("Video GET Error", "Error");
+//                } catch (Throwable throwable) {
+//                    throwable.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        try {
+//            thd.start();
+//            // Wait GET process
+//            thd.join();
+//        } catch (InterruptedException e) {
+//            Log.e("thread join Error", "thread join Error");
+//        }
+//
+//    }
 }

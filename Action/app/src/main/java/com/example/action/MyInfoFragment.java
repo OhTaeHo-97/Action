@@ -200,6 +200,7 @@ public class MyInfoFragment extends Fragment {
 
                         // 추가 -정익
                         String scenario_id, script_id;
+                        int numOfVideos;
 
 
                         ScriptLayout[] scriptLayouts=new ScriptLayout[jsonObjects.length];
@@ -208,13 +209,12 @@ public class MyInfoFragment extends Fragment {
                             name=jsonObjects[j].getString("roleName");
                             script_text=jsonObjects[j].getString("scriptText");
 
+                            JSONArray jsonArray2 = jsonObjects[j].optJSONArray("videos");
+                            numOfVideos = jsonArray2.length();
+
                             // 추가 -정익
                             scenario_id = json_list[i].getString("id");
                             script_id = jsonObjects[j].getString("id");
-
-                            Log.e("SCENARIO_ID",scenario_id);
-                            Log.e("SCRIPT",script_text);
-                            Log.e("SCRIPT_ID",script_id);
 
                             ScriptLayout sl=new ScriptLayout(getActivity());
                             script_layout.addView(sl);
@@ -234,6 +234,7 @@ public class MyInfoFragment extends Fragment {
 
                             String finalScript_id = script_id;
                             String finalScript_text = script_text;
+                            int finalNumOfVideos = numOfVideos;
 
                             buttons.get(c).setOnClickListener(new View.OnClickListener(){
                                 public void onClick(View v){
@@ -245,6 +246,7 @@ public class MyInfoFragment extends Fragment {
                                     intent.putExtra("user_id", user_id);
                                     intent.putExtra("script_id", finalScript_id);
                                     intent.putExtra("script_text", finalScript_text);
+                                    intent.putExtra("number_of_videos", finalNumOfVideos);
 
                                     startActivity(intent);
                                 }

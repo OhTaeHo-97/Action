@@ -51,7 +51,7 @@ public class VideoCheckRVAdapter extends RecyclerView.Adapter<VideoCheckRVAdapte
 
         void onBind(VideoCheckItem items) {
 
-            videoThumbnailIV.setImageResource(items.getVideoID());
+            videoThumbnailIV.setImageBitmap(items.getVideoBitmap());
             createTimeTV.setText(items.getCreateTime());
 
         }
