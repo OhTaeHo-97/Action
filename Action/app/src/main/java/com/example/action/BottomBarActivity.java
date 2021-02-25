@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.action.fragment.CreateScriptFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomBarActivity extends AppCompatActivity {
@@ -82,6 +81,11 @@ public class BottomBarActivity extends AppCompatActivity {
                 fragment.setArguments(bundle);
             } else if (id == R.id.feed){
                 fragment = new FeedFragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("token",token);
+                bundle.putString("email",email);
+                bundle.putString("user_id",user_id);
+                fragment.setArguments(bundle);
             } else {
                 fragment = new SettingFragment();
             }

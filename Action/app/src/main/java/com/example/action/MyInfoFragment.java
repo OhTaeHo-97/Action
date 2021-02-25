@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,6 +94,8 @@ public class MyInfoFragment extends Fragment {
         String email=getArguments().getString("email");
         String user_id=getArguments().getString("user_id");
 
+        Button refreshBtn = (Button)rootview.findViewById(R.id.myinfo_refresh_btn);
+
         Thread thd = new Thread(new Runnable() { @SuppressLint("ResourceType")
         @Override public void run() {
             try {
@@ -110,7 +113,7 @@ public class MyInfoFragment extends Fragment {
                 Log.e("USER_ID",user_id);
 
                 String result = response.body().string();
-                //Log.e("wow",result);
+                Log.e("wow",result);
                 //List<JSONArray> jsonArray_list=new ArrayList<JSONArray>();
                 /*for(int i=0;i<json_list.length;i++)
                     jsonArray_list.add(json_list[i].optJSONArray("scripts"));//
@@ -144,6 +147,12 @@ public class MyInfoFragment extends Fragment {
                     JSONObject jsonObject=new JSONObject(result);
                     JSONObject jsonObject1=jsonObject.optJSONObject("_embedded");
                     JSONArray jsonArray=jsonObject1.optJSONArray("scenarios");
+
+
+                    // 아이디 새로 생성했을때 빈 scenario 때문에 생기는 오류 잡으려고 추가했어요
+                    if(jsonArray == null){this.finalize();}
+
+
                     List<JSONObject> jsonObjectList=new ArrayList<JSONObject>();
                     for(int i=0;i<jsonArray.length();i++)
                         jsonObjectList.add(jsonArray.getJSONObject(i));//object로 scenario 2개
@@ -188,12 +197,24 @@ public class MyInfoFragment extends Fragment {
                         String emotion;
                         String name;
                         String script_text;
+
+                        // 추가 -정익
+                        String scenario_id, script_id;
+
+
                         ScriptLayout[] scriptLayouts=new ScriptLayout[jsonObjects.length];
                         for(int j=0;j<jsonObjects.length;j++){
                             emotion=jsonObjects[j].getString("emotionName");
                             name=jsonObjects[j].getString("roleName");
                             script_text=jsonObjects[j].getString("scriptText");
+
+                            // 추가 -정익
+                            scenario_id = json_list[i].getString("id");
+                            script_id = jsonObjects[j].getString("id");
+
+                            Log.e("SCENARIO_ID",scenario_id);
                             Log.e("SCRIPT",script_text);
+                            Log.e("SCRIPT_ID",script_id);
 
                             ScriptLayout sl=new ScriptLayout(getActivity());
                             script_layout.addView(sl);
@@ -211,11 +232,20 @@ public class MyInfoFragment extends Fragment {
                             button.setLayoutParams(params);
                             buttons.add(button);
 
+                            String finalScript_id = script_id;
+                            String finalScript_text = script_text;
+
                             buttons.get(c).setOnClickListener(new View.OnClickListener(){
                                 public void onClick(View v){
                                     int tag=(Integer)v.getId();
                                     Log.e("TAG",Integer.toString(tag));
                                     Intent intent=new Intent(getActivity(), SelectPopUpActivity.class);
+
+                                    intent.putExtra("token", token);
+                                    intent.putExtra("user_id", user_id);
+                                    intent.putExtra("script_id", finalScript_id);
+                                    intent.putExtra("script_text", finalScript_text);
+
                                     startActivity(intent);
                                 }
                             });
@@ -233,6 +263,8 @@ public class MyInfoFragment extends Fragment {
                 responseResult = response.isSuccessful();
             } catch (IOException | JSONException e) {
                 Log.e("Response Error", "Response Error");
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
             }
         } });
 
@@ -270,7 +302,20 @@ public class MyInfoFragment extends Fragment {
             }
         });
 
+        refreshBtn.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                refresh();
+            }
+        });
+
         return rootview;
+    }
+
+
+    // Initialize fragment
+    public void refresh(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 
 }

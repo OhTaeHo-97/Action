@@ -10,11 +10,11 @@
     <FrameLayout
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="470dp">
         <com.example.action.CameraSurfaceView
             android:id="@+id/surfaceView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,26 +22,18 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/video_record_back_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="24dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_arrow_back_24"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:background="@android:color/white"/>
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:background="@android:color/white"
-                android:src="@drawable/ic_baseline_flip_camera_android_24" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/remain_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -56,42 +48,56 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/second_30_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="30초"/>
+            android:background="@color/gray_light"
+            android:text="30초" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/second_60_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@color/gray_light"
             android:text="60초"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/second_90_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@color/gray_light"
             android:text="90초"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/second_120_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_weight="1"
+            android:background="@color/gray_light"
             android:text="120초"/>
 
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="190dp">
+        android:layout_height="120dp">
+        <TextView
+            android:id="@+id/video_record_script"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textSize="20dp"/>
 
     </androidx.core.widget.NestedScrollView>
 
