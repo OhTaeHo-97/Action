@@ -44,8 +44,10 @@ public class SelectPopUpActivity extends Activity {
 
         check.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                /*Intent intent=new Intent(getApplicationContext(),BottomBarActivity.class);
-                startActivity(intent);*/
+                Intent intent=new Intent(getApplicationContext(),VideoCheckActivity.class);
+                intent.putExtra("token", token);
+                intent.putExtra("script_id", script_id);
+                startActivity(intent);
             }
         });
 
