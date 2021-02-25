@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -43,6 +45,8 @@ public class VideoCheckActivity extends AppCompatActivity {
 
     ImageButton backBtn;
 
+    JSONArray jsonArray;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,13 +82,23 @@ public class VideoCheckActivity extends AppCompatActivity {
         });
     }
 
-    private void getRVItems(String[] createTime, Bitmap[] videoBitmap) {
+    private void getRVItems(String[] createTime, Bitmap[] videoBitmap, Double[][] emotionList) {
 
         VideoCheckItem items = new VideoCheckItem();
+
+        Log.e("Length", String.valueOf(videoBitmap.length));
 
         for(int i = 0; i < createTime.length; i++)
         {
             items.setCreateTime(createTime[i]);
+
+            items.setEmotionNeutral(emotionList[i][0]);
+            items.setEmotionJoy(emotionList[i][1]);
+            items.setEmotionSadness(emotionList[i][2]);
+            items.setEmotionDisgust(emotionList[i][3]);
+            items.setEmotionFear(emotionList[i][4]);
+            items.setEmotionAnger(emotionList[i][5]);
+            items.setEmotionSurprise(emotionList[i][6]);
         }
 
         for(int i = 0; i < numOfVideos; i++)
@@ -117,17 +131,21 @@ public class VideoCheckActivity extends AppCompatActivity {
 
                     String resBody = response.body().string();
 
+                    Log.e("Body", resBody);
                     JSONObject jsonObject = new JSONObject(resBody);
                     JSONObject jsonObject1 = jsonObject.optJSONObject("_embedded");
-                    JSONArray jsonArray = jsonObject1.optJSONArray("videos");
 
-                    // If no video data -> finish thread
-                    if(jsonArray == null) {
+                    try{
+                        jsonArray = jsonObject1.optJSONArray("videos");
+                    }
+                    catch (Exception e){
                         responseResult = false;
                         this.finalize();
                     }
 
-                    List<JSONObject> jsonObjectList=new ArrayList<JSONObject>();
+
+                    // If no video data -> finish thread
+                    List<JSONObject> jsonObjectList = new ArrayList<JSONObject>();
 
                     for(int i = 0; i < jsonArray.length(); i++)
                         jsonObjectList.add(jsonArray.getJSONObject(i));
@@ -137,10 +155,18 @@ public class VideoCheckActivity extends AppCompatActivity {
 
                     //String[] videoIDList = new String[jsonObjectList.size()];
                     String[] createTimeList = new String[jsonObjectList.size()];
+                    Double[][] emotionList = new Double[jsonObjectList.size()][7];
 
                     for(int i = 0; i < json_list.length; i++) {
                         //videoIDList[i] = json_list[i].getString("id");
                         createTimeList[i] = json_list[i].getString("createTime");
+                        emotionList[i][0] = json_list[i].getDouble("emotionNeutral");
+                        emotionList[i][1] = json_list[i].getDouble("emotionJoy");
+                        emotionList[i][2] = json_list[i].getDouble("emotionSadness");
+                        emotionList[i][3] = json_list[i].getDouble("emotionDisgust");
+                        emotionList[i][4] = json_list[i].getDouble("emotionFear");
+                        emotionList[i][5] = json_list[i].getDouble("emotionAnger");
+                        emotionList[i][6] = json_list[i].getDouble("emotionSurprise");
                     }
 
                     // Thumbnail
@@ -150,14 +176,12 @@ public class VideoCheckActivity extends AppCompatActivity {
                         String videoName = user_id + script_id + num + "_video";
                         String videoPath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/"+ videoName +".mp4";
 
-                        MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                        mediaMetadataRetriever.setDataSource( videoPath );
-                        Bitmap bitmap = mediaMetadataRetriever.getFrameAtTime(3000000);
+                        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, MediaStore.Video.Thumbnails.MINI_KIND);
 
                         videoBitmapList[i] = bitmap;
                     }
 
-                    getRVItems(createTimeList, videoBitmapList);
+                    getRVItems(createTimeList, videoBitmapList, emotionList);
 
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
@@ -178,7 +202,7 @@ public class VideoCheckActivity extends AppCompatActivity {
             if(!responseResult) {
                 new AlertDialog.Builder(this)
                         .setTitle("실패")
-                        .setMessage("영상 가져오기 실패!")
+                        .setMessage("영상 가져오기 실패!\n녹화영상이 없습니다. ")
                         .setNeutralButton("확인", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dlg, int sumthin) {
                             }

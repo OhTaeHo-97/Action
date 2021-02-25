@@ -41,18 +41,27 @@ public class VideoCheckRVAdapter extends RecyclerView.Adapter<VideoCheckRVAdapte
 
         private ImageView videoThumbnailIV;
         private TextView createTimeTV;
+        private TextView emotionTV;
 
         ItemViewHolder(View itemView) {
             super(itemView);
 
             videoThumbnailIV = itemView.findViewById(R.id.video_thumbnail);
             createTimeTV = itemView.findViewById(R.id.create_time_tv);
+            emotionTV = itemView.findViewById(R.id.emotion_list_view);
         }
 
         void onBind(VideoCheckItem items) {
 
             videoThumbnailIV.setImageBitmap(items.getVideoBitmap());
-            createTimeTV.setText(items.getCreateTime());
+            createTimeTV.setText("녹화날짜: " + items.getCreateTime());
+            emotionTV.setText("평범:" + items.getEmotionNeutral() + "%" +
+                    "  기쁨:"+ items.getEmotionJoy() + "%" +
+                    "  슬픔:" + items.getEmotionSadness() + "%" +
+                    " \n혐오:" + items.getEmotionDisgust() + "%" +
+                    "  공포:" + items.getEmotionFear() + "%" +
+                    "  화남:" + items.getEmotionAnger() + "%" +
+                    "  놀람:" + items.getEmotionSurprise() + "%");
 
         }
     }

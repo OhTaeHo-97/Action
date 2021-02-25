@@ -20,8 +20,19 @@
             <ImageView
                 android:id="@+id/video_thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="500dp"
                 android:clickable="true"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/emotion_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:textSize="15dp"
+                android:text="평범:%  기쁨:%  슬픔:% \n혐오:%  공포:%  화남:%  놀람:%"
+                android:textColor="@color/black"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/create_time_tv"
