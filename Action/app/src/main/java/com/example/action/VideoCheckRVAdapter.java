@@ -1,18 +1,28 @@
 package com.example.action;
 
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class VideoCheckRVAdapter extends RecyclerView.Adapter<VideoCheckRVAdapter.ItemViewHolder> {
     private ArrayList<VideoCheckItem> itemList = new ArrayList<>();
+
+    private Context context;
+
 
     @NonNull
     @Override
@@ -39,21 +49,22 @@ public class VideoCheckRVAdapter extends RecyclerView.Adapter<VideoCheckRVAdapte
     // Set subviews
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView videoThumbnailIV;
+        private ImageButton videoBtn;
         private TextView createTimeTV;
         private TextView emotionTV;
+        private String videoPath;
 
         ItemViewHolder(View itemView) {
             super(itemView);
 
-            videoThumbnailIV = itemView.findViewById(R.id.video_thumbnail);
+            videoBtn = itemView.findViewById(R.id.play_video_btn);
             createTimeTV = itemView.findViewById(R.id.create_time_tv);
             emotionTV = itemView.findViewById(R.id.emotion_list_view);
         }
 
         void onBind(VideoCheckItem items) {
 
-            videoThumbnailIV.setImageBitmap(items.getVideoBitmap());
+            videoPath = items.getVideoPath();
             createTimeTV.setText("녹화날짜: " + items.getCreateTime());
             emotionTV.setText("평범:" + items.getEmotionNeutral() + "%" +
                     "  기쁨:"+ items.getEmotionJoy() + "%" +
@@ -62,6 +73,16 @@ public class VideoCheckRVAdapter extends RecyclerView.Adapter<VideoCheckRVAdapte
                     "  공포:" + items.getEmotionFear() + "%" +
                     "  화남:" + items.getEmotionAnger() + "%" +
                     "  놀람:" + items.getEmotionSurprise() + "%");
+
+            videoBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(v.getContext(),PlayVideoActivity.class);
+                    intent.putExtra("video_path", videoPath);
+                    v.getContext().startActivity(intent);
+
+                }
+            });
 
         }
     }

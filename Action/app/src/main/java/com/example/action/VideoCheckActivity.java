@@ -47,6 +47,10 @@ public class VideoCheckActivity extends AppCompatActivity {
 
     JSONArray jsonArray;
 
+    String[] createTimeList;
+    String[] videoPathList;
+    Double[][] emotionList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,15 +65,9 @@ public class VideoCheckActivity extends AppCompatActivity {
         }
 
         // Set RecyclerView
-        RecyclerView recyclerView = findViewById(R.id.video_check_rv);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        adapter = new VideoCheckRVAdapter();
-        recyclerView.setAdapter(adapter);
-
         GETData();
+
+        getRVItems(createTimeList, videoPathList, emotionList);
 
 
         // Back Button
@@ -82,15 +80,21 @@ public class VideoCheckActivity extends AppCompatActivity {
         });
     }
 
-    private void getRVItems(String[] createTime, Bitmap[] videoBitmap, Double[][] emotionList) {
+    private void getRVItems(String[] createTime, String[] videoPath, Double[][] emotionList) {
+        RecyclerView recyclerView = findViewById(R.id.video_check_rv);
 
-        VideoCheckItem items = new VideoCheckItem();
+        adapter = new VideoCheckRVAdapter();
+        recyclerView.setAdapter(adapter);
 
-        Log.e("Length", String.valueOf(videoBitmap.length));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
 
         for(int i = 0; i < createTime.length; i++)
         {
+            VideoCheckItem items = new VideoCheckItem();
             items.setCreateTime(createTime[i]);
+            items.setVideoPath(videoPath[i]);
 
             items.setEmotionNeutral(emotionList[i][0]);
             items.setEmotionJoy(emotionList[i][1]);
@@ -99,14 +103,11 @@ public class VideoCheckActivity extends AppCompatActivity {
             items.setEmotionFear(emotionList[i][4]);
             items.setEmotionAnger(emotionList[i][5]);
             items.setEmotionSurprise(emotionList[i][6]);
+            adapter.addItem(items);
+            Log.e("path3", items.getVideoPath());
+
         }
 
-        for(int i = 0; i < numOfVideos; i++)
-        {
-            items.setVideoBitmap(videoBitmap[i]);
-        }
-
-        adapter.addItem(items);
         adapter.notifyDataSetChanged();
     }
 
@@ -154,11 +155,18 @@ public class VideoCheckActivity extends AppCompatActivity {
                     jsonObjectList.toArray(json_list);
 
                     //String[] videoIDList = new String[jsonObjectList.size()];
-                    String[] createTimeList = new String[jsonObjectList.size()];
-                    Double[][] emotionList = new Double[jsonObjectList.size()][7];
+                    createTimeList = new String[jsonObjectList.size()];
+                    videoPathList = new String[jsonObjectList.size()];
+                    emotionList = new Double[jsonObjectList.size()][7];
 
                     for(int i = 0; i < json_list.length; i++) {
                         //videoIDList[i] = json_list[i].getString("id");
+
+                        int num = i + 1;
+                        String videoName = user_id + script_id + num + "_video";
+                        String videoPath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/"+ videoName +".mp4";
+
+                        videoPathList[i] = videoPath;
                         createTimeList[i] = json_list[i].getString("createTime");
                         emotionList[i][0] = json_list[i].getDouble("emotionNeutral");
                         emotionList[i][1] = json_list[i].getDouble("emotionJoy");
@@ -168,20 +176,6 @@ public class VideoCheckActivity extends AppCompatActivity {
                         emotionList[i][5] = json_list[i].getDouble("emotionAnger");
                         emotionList[i][6] = json_list[i].getDouble("emotionSurprise");
                     }
-
-                    // Thumbnail
-                    Bitmap[] videoBitmapList = new Bitmap[numOfVideos];
-                    for(int i = 0; i < numOfVideos; i++){
-                        int num = i + 1;
-                        String videoName = user_id + script_id + num + "_video";
-                        String videoPath = Environment.getExternalStorageDirectory() + "/DCIM/Camera/"+ videoName +".mp4";
-
-                        Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(videoPath, MediaStore.Video.Thumbnails.MINI_KIND);
-
-                        videoBitmapList[i] = bitmap;
-                    }
-
-                    getRVItems(createTimeList, videoBitmapList, emotionList);
 
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();

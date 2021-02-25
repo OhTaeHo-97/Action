@@ -1,14 +1,15 @@
 package com.example.action;
 
-import android.graphics.Bitmap;
+import android.util.Log;
 
 public class VideoCheckItem {
     private String createTime;
-    private Bitmap videoBitmap;
+    private String videoPath;
     private long emotionNeutral, emotionJoy, emotionSadness, emotionDisgust, emotionFear, emotionAnger, emotionSurprise;
 
-    public Bitmap getVideoBitmap(){
-        return videoBitmap;
+    public String getVideoPath(){
+        Log.e("path2", videoPath);
+        return videoPath;
     }
 
     public String getCreateTime(){
@@ -23,8 +24,8 @@ public class VideoCheckItem {
     public long getEmotionAnger() {return emotionAnger;}
     public long getEmotionSurprise() {return emotionSurprise;}
 
-    public void setVideoBitmap(Bitmap videoId){
-        this.videoBitmap = videoBitmap;
+    public void setVideoPath(String videoPath){
+        this.videoPath = videoPath;
     }
 
     public void setCreateTime(String createTime){

@@ -3,25 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.action">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
+        android:usesCleartextTraffic="true">
+        <activity android:name=".PlayVideoActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,14 +32,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".FindPWActivity"/>
-        <activity android:name=".EditInfoActivity"/>
-        <activity android:name=".BottomBarActivity"/>
-        <activity android:name=".WithPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
-        <activity android:name=".SelectPopUpActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
-        <activity android:name=".StarRatingActivity" android:theme="@android:style/Theme.Dialog" android:screenOrientation="portrait"/>
-        <activity android:name=".VideoRecordActivity"/>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".FindPWActivity" />
+        <activity android:name=".EditInfoActivity" />
+        <activity android:name=".BottomBarActivity" />
+        <activity
+            android:name=".WithPopUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".SelectPopUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".StarRatingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".VideoRecordActivity" />
         <activity android:name=".AnalysisCheckActivity" />
         <activity android:name=".VideoCheckActivity" />
     </application>
