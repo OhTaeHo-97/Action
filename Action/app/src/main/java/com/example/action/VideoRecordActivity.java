@@ -77,7 +77,7 @@ public class VideoRecordActivity extends AppCompatActivity {
         }
 
         // Set video name
-        videoName = user_id + script_id + "_video";
+        videoName = user_id + script_id + script_text.length() + "_video";
 
         // Permission for using camera
         TedPermission.with(this)
