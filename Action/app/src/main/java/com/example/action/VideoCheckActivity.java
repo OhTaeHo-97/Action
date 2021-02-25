@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,6 +185,8 @@ public class VideoCheckActivity extends AppCompatActivity {
                             .method("GET", null)
                             .build();
                     Response response = client.newCall(request).execute();
+
+                    InputStream is = response.body().byteStream();
 
                     Log.e("VideoData", response.header("Content-Length"));
 
