@@ -1,4 +1,4 @@
-package com.example.action.fragment;
+package com.example.action;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-
-import com.example.action.R;
 
 public class WordLayout extends LinearLayout{
 
