@@ -17,6 +17,7 @@ public class BottomBarActivity extends AppCompatActivity {
     private BottomNavigationView mBottomNV;
     String email="";
     String token;
+    String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class BottomBarActivity extends AppCompatActivity {
         if(intent!=null){
             token = intent.getStringExtra("token");
             email = intent.getStringExtra("email");
+            user_id = intent.getStringExtra("user_id");
         }
         Log.e("token",token);
         Log.e("Email",email);
@@ -60,6 +62,7 @@ public class BottomBarActivity extends AppCompatActivity {
                 Bundle bundle=new Bundle();
                 bundle.putString("token",token);
                 bundle.putString("email",email);
+                bundle.putString("user_id",user_id);
                 fragment.setArguments(bundle);
                 /*
                  Bundle bundle = new Bundle();
@@ -71,8 +74,18 @@ public class BottomBarActivity extends AppCompatActivity {
                  */
             } else if (id == R.id.write){
                 fragment = new CreateScriptFragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("token",token);
+                bundle.putString("email",email);
+                bundle.putString("user_id",user_id);
+                fragment.setArguments(bundle);
             } else if (id == R.id.feed){
                 fragment = new FeedFragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("token",token);
+                bundle.putString("email",email);
+                bundle.putString("user_id",user_id);
+                fragment.setArguments(bundle);
             } else {
                 fragment = new SettingFragment();
             }

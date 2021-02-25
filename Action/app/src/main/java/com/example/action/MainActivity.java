@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
     ArrayList<String> pstr=new ArrayList<String>();
     String[] arr;
     String token;
+    String user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,9 @@ public class MainActivity extends Activity {
                                 if(arr[i].equals("\"access_token\"")){
                                     token=arr[i+1];
                                 }
+                                else if(arr[i].equals("\"id\"")){
+                                    user_id = arr[i+1];
+                                }
                             }
 
                             if(token!=null){
@@ -122,6 +126,7 @@ public class MainActivity extends Activity {
                     if(responseResult){
                         Intent intent= new Intent(getApplicationContext(), BottomBarActivity.class);
                         intent.putExtra("token", token);
+                        intent.putExtra("user_id", user_id);
                         intent.putExtra("email",id_text);
                         startActivity(intent);
                     }
