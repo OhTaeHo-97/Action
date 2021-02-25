@@ -187,7 +187,7 @@ public class FeedFragment extends Fragment {
                                     String evaluation = jsonObjectList1.get(l).getString("evaluation");
                                     evaluation_list.add(evaluation);
 
-                                    String videoName = user_id + script_id + "_video";
+                                    String videoName = user_id + script_id + l + "_video";
                                     String file_path_text = Environment.getExternalStorageDirectory() + "/DCIM/Camera/" + videoName + ".mp4";
 
                                     file_path_list.add(file_path_text);
